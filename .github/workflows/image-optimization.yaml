@@ -1,0 +1,28 @@
+name: Optimisse les images
+on:
+  # On optimise uniquement lors d'une pull request
+  pull_request:
+    paths:
+      - "**.jpg"
+      - "**.jpeg"
+      - "**.png"
+      - "**.webp"
+jobs:
+  image-optimization:
+    name: calibreapp/image-actions
+    runs-on: ubuntu-latest
+
+    steps:
+      # Récupère le code compris dans le repository
+      - name: Checkout Branch
+        uses: actions/checkout@v4
+
+      # Utilise l'action tièrce calibreapp/image-actions
+      - name: Compress Images
+        id: calibre
+        uses: calibreapp/image-actions@main
+        with:
+          # Le token est généré automatiquement par GitHub au lancement de chaque job
+          # Cette action aura besoin d'écrire dans la PR pour y ajouter un commentaire
+          # Cette action aura aussi besoin de mettre à jour le repository en modifiant les images
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
